@@ -74,11 +74,34 @@ body {
   transform: translateY(0);
 }
 
-.headind-label {
+.heading-label {
   padding: 1rem;
   text-align: center;
   font-weight: 600;
 }
 .side-panel {
   padding:0rem 1rem;
+}
+
+.text-updater-node {
+  min-height: 50px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  background: white;
+  width: 12rem;
+}
+
+.text-updater-node label {
+  display: block;
+  color: #000;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.top-bar{
+  background: #9aff00;
+  text-align: center;
+  padding: 0rem;
+}
+.text-updater-node .message-text {
+  text-align: center;
 }
