@@ -66,6 +66,7 @@ export default function App() {
   const handleNodeClick = useCallback((e, node) => {
     console.log(e, node);
     setEditNode({ nodeData: node, status: true });
+    setMessage(node.data.label);
   });
   useEffect(() => {
     setNodes((nds) =>
@@ -129,6 +130,10 @@ export default function App() {
               nodeData={editNode.nodeData}
               message={message}
               setMessage={setMessage}
+              closeEditFn={()=>{
+                setEditNode({nodeData:{},status:false});
+                setMessage("");
+              }}
             />
           )}
         </div>
@@ -138,12 +143,12 @@ export default function App() {
 }
 
 function EditNodeData(props) {
-  const { message, setMessage } = props;
+  const { message, setMessage,closeEditFn } = props;
   return (
     <>
       <div className="heading-label edit-heading"> 
-      <div> <button className="btn close-edit"> {"<"} </button></div>
-      <div>Message {props.nodeData.id}</div>
+      <div> <button className="btn close-edit" onClick={closeEditFn}> {"<"} </button></div>
+      <div>Message {props.nodeData.id} </div>
       </div>
       <div className="nodes-operations-container">
         <label className="form-label">Text</label>

@@ -118,6 +118,7 @@ body {
 .textarea {
   width: 100%;
   min-height: 5rem;
+  font-size: 1rem;
 }
 .form-label {
   font-size: 1.2rem;
