@@ -100,7 +100,9 @@ body {
   width: 15rem;
   box-shadow: rgba(0, 0, 0, 0.26) 7px 5px 4px;
 }
-
+.text-updater-node:active {
+  border: 2px solid black;
+}
 .text-updater-node label {
   display: block;
   color: #000;

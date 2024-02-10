@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect,useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -6,6 +6,7 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
+  getConnectedEdges
 } from "reactflow";
 import MessageNode from "./components/MessageNode";
 import "reactflow/dist/style.css";
@@ -25,8 +26,7 @@ const initialNodes = [
   },
 ];
 const nodeTypes = { messageNode: MessageNode };
-// const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
-const initialEdges = [];
+const initialEdges = [{ id: 'e1-2', source: '2', target: '1' }];
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -40,13 +40,24 @@ export default function App() {
   );
 
   const addNewNode = (params) => {
-    // setNodes((nds) => nds.concat({ id: '3', position: { x: 0, y: 300 }, data: { label: '2' } }));
+    //adds new node
     setNodes((nds) => nds.concat(params));
   };
+  const handleSave = () => {
+    const connectedEdges = getConnectedEdges(nodes, edges);
+    const nodesLength = nodes.length;
+    if((nodesLength - 1) === connectedEdges.length) {
+      alert("all nodes connected");
+      
+    } else {
+      alert("please connect all nodes");
+    }
+    console.log(connectedEdges);
+  }
   const handleOnDrop = (e) => {
+
     console.log(e);
     const uniqueId = Math.random().toString(36).substring(2, 9);
-
     addNewNode({
       id: uniqueId,
       type: "messageNode",
@@ -72,8 +83,6 @@ export default function App() {
     setNodes((nds) =>
       nds.map((node) => {
         if (node.id === editNode.nodeData.id) {
-          // it's important that you create a new object here
-          // in order to notify react flow about the change
           node.data = {
             ...node.data,
             label: message,
@@ -87,7 +96,7 @@ export default function App() {
   return (
     <>
       <div className="header border">
-        <button className="btn"> Save Changes </button>
+        <button className="btn" onClick={handleSave}> Save Changes </button>
       </div>
       <div className="flow-container border">
         <div className="flow-layout border">
