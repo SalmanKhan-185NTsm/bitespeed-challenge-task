@@ -6,7 +6,7 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
-  getConnectedEdges
+  getConnectedEdges,
 } from "reactflow";
 import MessageNode from "./components/MessageNode";
 import "reactflow/dist/style.css";
@@ -26,13 +26,14 @@ const initialNodes = [
   },
 ];
 const nodeTypes = { messageNode: MessageNode };
-const initialEdges = [{ id: 'e1-2', source: '2', target: '1' }];
+const initialEdges = [{ id: "e1-2", source: "2", target: "1" }];
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [editNode, setEditNode] = useState({ nodeData: {}, status: false });
   const [message, setMessage] = useState("");
+  const [alert, setAlert] = useState("");
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -43,19 +44,21 @@ export default function App() {
     //adds new node
     setNodes((nds) => nds.concat(params));
   };
+  const handleReset = () => {
+    setNodes(initialNodes);
+    setEdges(initialEdges);
+  };
   const handleSave = () => {
     const connectedEdges = getConnectedEdges(nodes, edges);
     const nodesLength = nodes.length;
-    if((nodesLength - 1) === connectedEdges.length) {
-      alert("all nodes connected");
-      
+    if (nodesLength - 1 === connectedEdges.length) {
+      setAlert("");
     } else {
-      alert("please connect all nodes");
+      setAlert("Cannot Save Flow");
     }
-    console.log(connectedEdges);
-  }
+    // console.log(connectedEdges);
+  };
   const handleOnDrop = (e) => {
-
     console.log(e);
     const uniqueId = Math.random().toString(36).substring(2, 9);
     addNewNode({
@@ -69,16 +72,22 @@ export default function App() {
   const handleDragOver = (e) => {
     e.preventDefault();
   };
-  const handleDragEnd = (e) => {
-    console.log(e);
-  };
-
   //clicking of node
   const handleNodeClick = useCallback((e, node) => {
     console.log(e, node);
     setEditNode({ nodeData: node, status: true });
     setMessage(node.data.label);
   });
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      // After 3 seconds set the show value to false
+      setAlert("")
+    }, 3000)
+
+    return () => {
+      clearTimeout(timeId)
+    }
+  }, [alert]);
   useEffect(() => {
     setNodes((nds) =>
       nds.map((node) => {
@@ -95,8 +104,17 @@ export default function App() {
   }, [message, setNodes]);
   return (
     <>
+      {alert !== "" && <div className="validation-alert">{alert}</div>}
+
       <div className="header border">
-        <button className="btn" onClick={handleSave}> Save Changes </button>
+        <button className="btn" onClick={handleSave}>
+          {" "}
+          Save Changes{" "}
+        </button>
+        <button className="btn" onClick={handleReset}>
+          {" "}
+          Reset{" "}
+        </button>
       </div>
       <div className="flow-container border">
         <div className="flow-layout border">
@@ -139,8 +157,8 @@ export default function App() {
               nodeData={editNode.nodeData}
               message={message}
               setMessage={setMessage}
-              closeEditFn={()=>{
-                setEditNode({nodeData:{},status:false});
+              closeEditFn={() => {
+                setEditNode({ nodeData: {}, status: false });
                 setMessage("");
               }}
             />
@@ -152,12 +170,18 @@ export default function App() {
 }
 
 function EditNodeData(props) {
-  const { message, setMessage,closeEditFn } = props;
+  const { message, setMessage, closeEditFn } = props;
   return (
     <>
-      <div className="heading-label edit-heading"> 
-      <div> <button className="btn close-edit" onClick={closeEditFn}> {"<"} </button></div>
-      <div>Message {props.nodeData.id} </div>
+      <div className="heading-label edit-heading">
+        <div>
+          {" "}
+          <button className="btn close-edit" onClick={closeEditFn}>
+            {" "}
+            {"<"}{" "}
+          </button>
+        </div>
+        <div>Message {props.nodeData.id} </div>
       </div>
       <div className="nodes-operations-container">
         <label className="form-label">Text</label>

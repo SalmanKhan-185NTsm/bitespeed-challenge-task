@@ -131,3 +131,13 @@ body {
 .close-edit {
   margin-right: 1rem;
 }
+  .validation-alert {
+    position: absolute;
+    padding: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 1rem;
+    background: yellow;
+    font-weight: 600;
+    box-shadow: 1px 3px 4px rgba(0,0,0,0.45);
+}
