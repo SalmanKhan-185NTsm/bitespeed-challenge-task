@@ -10,11 +10,12 @@ body {
 
 .header {
   padding: 1rem;
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  background-color: #eee;
 }
 .border {
-  border: 1px solid black;
+  border: 1px solid #eee;
 }
 
 .flow-container {
@@ -29,22 +30,23 @@ body {
 /* CSS */
 .btn {
   align-items: center;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
   box-sizing: border-box;
   color: rgba(0, 0, 0, 0.85);
   cursor: pointer;
   display: inline-flex;
-  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: system-ui, -apple-system, system-ui, "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
   justify-content: center;
   line-height: 1.25;
   margin: 0;
   min-height: 3rem;
-  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
   position: relative;
   text-decoration: none;
   transition: all 250ms;
@@ -67,7 +69,7 @@ body {
 }
 
 .btn:active {
-  background-color: #F0F0F1;
+  background-color: #f0f0f1;
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   color: rgba(0, 0, 0, 0.65);
@@ -75,12 +77,19 @@ body {
 }
 
 .heading-label {
-  padding: 1rem;
+  padding: 6px 0rem;
   text-align: center;
   font-weight: 600;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
 }
-.side-panel {
-  padding:0rem 1rem;
+.side-panel .nodes-list-container {
+  padding: 1rem 1rem;
+}
+.side-panel .nodes-operations-container {
+  padding: 0rem 1rem;
 }
 
 .text-updater-node {
@@ -88,7 +97,8 @@ body {
   border: 1px solid #eee;
   border-radius: 5px;
   background: white;
-  width: 12rem;
+  width: 15rem;
+  box-shadow: rgba(0, 0, 0, 0.26) 7px 5px 4px;
 }
 
 .text-updater-node label {
@@ -97,11 +107,24 @@ body {
   font-weight: 700;
   font-size: 0.85rem;
 }
-.top-bar{
+.top-bar {
   background: #9aff00;
   text-align: center;
   padding: 0rem;
 }
 .text-updater-node .message-text {
   text-align: center;
+}
+.textarea {
+  width: 100%;
+  min-height: 5rem;
+}
+.form-label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  display: block;
+}
+.close-edit {
+  margin-right: 1rem;
 }
