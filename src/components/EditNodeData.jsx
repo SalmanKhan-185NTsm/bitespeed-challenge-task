@@ -3,6 +3,7 @@ import { BsArrowLeft } from "react-icons/bs";
 
 
 export default function EditNodeData(props) {
+    //edit side panel component for editing the text node
     const { message, setMessage, closeEditFn } = props;
     return (
       <>

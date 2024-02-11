@@ -35,7 +35,7 @@ export default function App() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [editNode, setEditNode] = useState({ nodeData: {}, status: false });
   const [message, setMessage] = useState("");
-  const [alert, setAlert] = useState("");
+  const [alert, setAlert] = useState({status:false,message:""});
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -47,21 +47,28 @@ export default function App() {
     setNodes((nds) => nds.concat(params));
   };
   const handleReset = () => {
+    //resets flow
     setNodes(initialNodes);
     setEdges(initialEdges);
   };
   const handleSave = () => {
+    //saves the flow
     const connectedEdges = getConnectedEdges(nodes, edges);
+    // console.log(connectedEdges);
     const nodesLength = nodes.length;
     if (nodesLength - 1 === connectedEdges.length) {
-      setAlert("");
+      setAlert({status:true,message:"Flow Saved"});
+      localStorage.setItem("nodes",JSON.stringify(nodes));
+      localStorage.setItem("edges",JSON.stringify(edges));
     } else {
       setAlert("Cannot Save Flow");
     }
-    // console.log(connectedEdges);
   };
+
+  //drag and drop event
   const handleOnDrop = (e) => {
-    console.log(e);
+    //handles the drag and drop event of text node on the grid screen
+    // console.log(e);
     const uniqueId = Math.random().toString(36).substring(2, 9);
     addNewNode({
       id: uniqueId,
@@ -69,28 +76,32 @@ export default function App() {
       position: { x: e.clientX, y: e.clientY },
       data: { label: "new message" },
     });
-    console.log(nodes);
+    // console.log(nodes);
   };
   const handleDragOver = (e) => {
+    //skips the default behavior
     e.preventDefault();
   };
-  //clicking of node
   const handleNodeClick = useCallback((e, node) => {
-    console.log(e, node);
+    //update state for editing text node information when clicked.
+    // console.log(e, node);
     setEditNode({ nodeData: node, status: true });
     setMessage(node.data.label);
   });
-  useEffect(() => {
-    const timeId = setTimeout(() => {
-      // After 3 seconds set the show value to false
-      setAlert("")
-    }, 3000)
 
-    return () => {
-      clearTimeout(timeId)
-    }
-  }, [alert]);
+  //side effect for state changes
   useEffect(() => {
+    //hide cannot save alert after 3 seconds
+    const timeId = setTimeout(() => {
+      setAlert({status:false,message:""});
+    }, 3000);
+    return () => {
+      clearTimeout(timeId);
+    };
+  }, [alert]);
+
+  useEffect(() => {
+    //when message field is updated, it updates the corresponding node
     setNodes((nds) =>
       nds.map((node) => {
         if (node.id === editNode.nodeData.id) {
@@ -104,9 +115,10 @@ export default function App() {
       })
     );
   }, [message, setNodes]);
+
   return (
     <>
-      {alert !== "" && <div className="validation-alert">{alert}</div>}
+      {alert.status === true  && <div className="validation-alert">{alert.message}</div>}
 
       <div className="header border">
         <button className="btn" onClick={handleSave}>
@@ -148,8 +160,9 @@ export default function App() {
                   draggable={true}
                   onDragOver={handleDragOver}
                 >
-                  <div><BsMessenger /> Message </div>
-                  
+                  <div>
+                    <BsMessenger /> Message{" "}
+                  </div>
                 </button>
               </div>
             </>
@@ -170,4 +183,3 @@ export default function App() {
     </>
   );
 }
-

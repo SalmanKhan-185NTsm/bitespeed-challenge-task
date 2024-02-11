@@ -3,6 +3,7 @@ import { Handle, Position } from "reactflow";
 import { BsMessenger } from "react-icons/bs";
 
 function MessageNode({ data, isConnectable }) {
+  //custom node for text data 
   return (
     <div className="text-updater-node">
       <div className="top-bar">
