@@ -1,11 +1,12 @@
 import React from "react";
 import { Handle, Position } from "reactflow";
+import { BsMessenger } from "react-icons/bs";
 
 function MessageNode({ data, isConnectable }) {
   return (
     <div className="text-updater-node">
       <div className="top-bar">
-        <label htmlFor="text">Send message:</label>
+        <label htmlFor="text"><BsMessenger /> Send Message</label>
       </div>
       <div className="message-text">{data.label}</div>
       <Handle

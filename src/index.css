@@ -108,6 +108,10 @@ body {
   color: #000;
   font-weight: 700;
   font-size: 0.85rem;
+  min-height: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .top-bar {
   background: #9aff00;
@@ -115,7 +119,7 @@ body {
   padding: 0rem;
 }
 .text-updater-node .message-text {
-  text-align: center;
+  padding: 1rem;
 }
 .textarea {
   width: 100%;
@@ -130,6 +134,7 @@ body {
 }
 .close-edit {
   margin-right: 1rem;
+  border:0;
 }
   .validation-alert {
     position: absolute;
@@ -140,4 +145,10 @@ body {
     background: yellow;
     font-weight: 600;
     box-shadow: 1px 3px 4px rgba(0,0,0,0.45);
+}
+
+.center-align {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

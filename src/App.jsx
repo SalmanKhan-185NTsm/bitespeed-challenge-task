@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { BsMessenger } from "react-icons/bs";
+
 import ReactFlow, {
-  MiniMap,
   Controls,
   Background,
   useNodesState,
@@ -9,6 +10,7 @@ import ReactFlow, {
   getConnectedEdges,
 } from "reactflow";
 import MessageNode from "./components/MessageNode";
+import EditNodeData from "./components/EditNodeData";
 import "reactflow/dist/style.css";
 
 const initialNodes = [
@@ -21,7 +23,7 @@ const initialNodes = [
   {
     id: "2",
     type: "messageNode",
-    position: { x: 0, y: 100 },
+    position: { x: 300, y: 100 },
     data: { label: "label 2" },
   },
 ];
@@ -140,14 +142,14 @@ export default function App() {
         <div className="side-panel border">
           {editNode.status === false && (
             <>
-              <div className="heading-label"> Nodes Panel </div>
               <div className="nodes-list-container">
                 <button
-                  className="btn"
+                  className="btn center-align"
                   draggable={true}
                   onDragOver={handleDragOver}
                 >
-                  Message
+                  <div><BsMessenger /> Message </div>
+                  
                 </button>
               </div>
             </>
@@ -169,30 +171,3 @@ export default function App() {
   );
 }
 
-function EditNodeData(props) {
-  const { message, setMessage, closeEditFn } = props;
-  return (
-    <>
-      <div className="heading-label edit-heading">
-        <div>
-          {" "}
-          <button className="btn close-edit" onClick={closeEditFn}>
-            {" "}
-            {"<"}{" "}
-          </button>
-        </div>
-        <div>Message {props.nodeData.id} </div>
-      </div>
-      <div className="nodes-operations-container">
-        <label className="form-label">Text</label>
-        <textarea
-          name="message_text"
-          className="textarea"
-          id="message_text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        ></textarea>
-      </div>
-    </>
-  );
-}
